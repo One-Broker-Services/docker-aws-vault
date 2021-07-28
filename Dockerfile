@@ -6,7 +6,7 @@ RUN apk add --no-cache curl
 #install awscli
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 RUN unzip awscliv2.zip
-RUN ./aws/install
+RUN ./aws/install -i /usr/local/aws-cli -b /usr/local/bin
 RUN aws --version
 
 #install vault
