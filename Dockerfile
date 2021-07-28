@@ -7,8 +7,7 @@ RUN apk add --no-cache curl
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 RUN unzip awscliv2.zip
 RUN ./aws/install -i /usr/local/aws-cli -b /usr/local/bin
-RUN chmod +x /usr/local/bin/aws
-RUN aws --version
+RUN /usr/local/bin/aws --version
 
 #install vault
 RUN curl https://releases.hashicorp.com/vault/1.7.1/vault_1.7.1_linux_386.zip -o "vault.zip"
