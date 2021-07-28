@@ -4,10 +4,14 @@ FROM docker:latest
 RUN apk add --no-cache curl
 
 #install awscli
-RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-RUN unzip awscliv2.zip
-RUN ./aws/install -i /usr/local/aws-cli -b /usr/local/bin
-RUN /usr/local/bin/aws --version
+RUN RUN apk add --no-cache \
+        python3 \
+        py3-pip \
+    && pip3 install --upgrade pip \
+    && pip3 install \
+        awscli \
+    && rm -rf /var/cache/apk/*
+RUN aws --version
 
 #install vault
 RUN curl https://releases.hashicorp.com/vault/1.7.1/vault_1.7.1_linux_386.zip -o "vault.zip"
