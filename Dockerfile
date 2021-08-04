@@ -4,7 +4,7 @@ FROM docker:latest
 RUN apk add --no-cache curl
 
 #install prerequisites for awscli see https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html
-RUN RUN apk add glibc groff less --no-cache
+RUN apk add --no-cache glibc groff less 
 
 #install aws-cli
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
