@@ -1,17 +1,33 @@
 FROM docker:latest
 
-#install curl if missing
-RUN apk add --no-cache curl
-
-#install prerequisites for awscli see https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html
-RUN apk add --no-cache glibc groff less 
-
-#install aws-cli
-RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-RUN unzip awscliv2.zip
-RUN ./aws/install
-
-RUN aws --version
+#install aws-cli trough python https://stackoverflow.com/questions/61918972/how-to-install-aws-cli-on-alpine
+RUN apk --no-cache add \
+    binutils \
+    curl \
+    && GLIBC_VER=$(curl -s https://api.github.com/repos/sgerrand/alpine-pkg-glibc/releases/latest | grep tag_name | cut -d : -f 2,3 | tr -d \",' ') \
+    && curl -sL https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub -o /etc/apk/keys/sgerrand.rsa.pub \
+    && curl -sLO https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VER}/glibc-${GLIBC_VER}.apk \
+    && curl -sLO https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VER}/glibc-bin-${GLIBC_VER}.apk \
+    && apk add --no-cache \
+    glibc-${GLIBC_VER}.apk \
+    glibc-bin-${GLIBC_VER}.apk \
+    && curl -sL https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip -o awscliv2.zip \
+    && unzip awscliv2.zip \
+    && aws/install \
+    && rm -rf \
+    awscliv2.zip \
+    aws \
+    /usr/local/aws-cli/v2/*/dist/aws_completer \
+    /usr/local/aws-cli/v2/*/dist/awscli/data/ac.index \
+    /usr/local/aws-cli/v2/*/dist/awscli/examples \
+    && apk --no-cache del \
+    binutils \
+    curl \
+    && rm glibc-${GLIBC_VER}.apk \
+    && rm glibc-bin-${GLIBC_VER}.apk \
+    && rm -rf /var/cache/apk/*
+    && ln -s $(which awscliv2) /usr/bin/aws
+RUN awsv --version   # Just to make sure its installed alright
 
 #install vault
 RUN curl https://releases.hashicorp.com/vault/1.7.1/vault_1.7.1_linux_386.zip -o "vault.zip"
