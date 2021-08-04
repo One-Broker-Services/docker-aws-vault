@@ -3,13 +3,14 @@ FROM docker:latest
 #install curl if missing
 RUN apk add --no-cache curl
 
-#install awscli
-RUN RUN apk add --no-cache \
-        python3 \
-        py3-pip \
-    && pip3 install --upgrade pip \
-    && pip3 install \
-        awscli
+#install prerequisites for awscli see https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html
+RUN RUN glibc groff less --no-cache
+
+#install aws-cli
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+RUN unzip awscliv2.zip
+RUN ./aws/install
+
 RUN aws --version
 
 #install vault
