@@ -1,13 +1,11 @@
 FROM docker:latest
 
 #install aws-cli trough python https://stackoverflow.com/questions/61918972/how-to-install-aws-cli-on-alpine
-ENV GLIBC_VER=2.33-r0
+ENV GLIBC_VER=`curl -s https://api.github.com/repos/sgerrand/alpine-pkg-glibc/releases/latest | grep tag_name | cut -d : -f 2,3 | tr -d \",' '`
 RUN apk --no-cache add binutils curl
 RUN curl -sL https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub -o /etc/apk/keys/sgerrand.rsa.pub 
 RUN curl -sLO https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VER}/glibc-${GLIBC_VER}.apk 
 RUN curl -sLO https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VER}/glibc-bin-${GLIBC_VER}.apk 
-RUN ls
-RUN echo $env
 RUN apk add --no-cache glibc-${GLIBC_VER}.apk glibc-bin-${GLIBC_VER}.apk
 RUN curl -sL https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip -o awscliv2.zip
 RUN unzip awscliv2.zip
