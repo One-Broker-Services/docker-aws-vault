@@ -3,7 +3,7 @@ FROM docker:latest
 #install aws-cli trough python https://stackoverflow.com/questions/61918972/how-to-install-aws-cli-on-alpine
 ENV GLIBC_VER=2.33-r0
 RUN apk --no-cache add binutils curl
-RUN curl -sL https://alpine-pkgs.sgerrand.com/sgerrand/sgerrand.rsa.pub -o /etc/apk/keys/sgerrand.rsa.pub 
+RUN curl -sL https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub -o /etc/apk/keys/sgerrand.rsa.pub 
 RUN curl -sLO https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VER}/glibc-${GLIBC_VER}.apk 
 RUN curl -sLO https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VER}/glibc-bin-${GLIBC_VER}.apk 
 RUN ls
