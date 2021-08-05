@@ -1,5 +1,6 @@
 FROM docker:latest
 ARG GLIBC_VER
+ENV GLIBC_VER=${GLIBC_VER}
 #install aws-cli trough python https://stackoverflow.com/questions/61918972/how-to-install-aws-cli-on-alpine
 RUN apk --no-cache add binutils curl
 RUN curl -sL https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub -o /etc/apk/keys/sgerrand.rsa.pub 
