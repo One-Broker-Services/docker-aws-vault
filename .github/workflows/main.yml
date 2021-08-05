@@ -23,7 +23,11 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v2
       
+      - name: SetCustomEnv
+        run: |
+          echo ::set-env name=GLIBC_VER::$(curl -s https://api.github.com/repos/sgerrand/alpine-pkg-glibc/releases/latest | grep tag_name | cut -d : -f 2,3|sed 's/..//;s/..$//')
       - name: Printenv
+        
         run: |
           echo "MY_ENV_VAR=${GLIBC_VER}"
           printenv
