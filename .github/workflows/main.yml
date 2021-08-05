@@ -23,17 +23,6 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v2
       
-      - name: SetCustomEnv
-        env:
-          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-        run: |
-          echo ::set-env name=GLIBC_VER::$(curl -s https://api.github.com/repos/sgerrand/alpine-pkg-glibc/releases/latest | grep tag_name | cut -d : -f 2,3|sed 's/..//;s/..$//')
-      - name: Printenv
-        
-        run: |
-          echo "MY_ENV_VAR=${GLIBC_VER}"
-          printenv
-      
       - name: Log in to Docker Hub
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
         with:
