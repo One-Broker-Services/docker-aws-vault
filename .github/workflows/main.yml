@@ -24,6 +24,8 @@ jobs:
         uses: actions/checkout@v2
       
       - name: SetCustomEnv
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
         run: |
           echo ::set-env name=GLIBC_VER::$(curl -s https://api.github.com/repos/sgerrand/alpine-pkg-glibc/releases/latest | grep tag_name | cut -d : -f 2,3|sed 's/..//;s/..$//')
       - name: Printenv
