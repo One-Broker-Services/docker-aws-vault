@@ -1,5 +1,7 @@
 FROM ubuntu:latest
 
+ENV DEBIAN_FRONTEND=noninteractive apt-get -y upgrade
+
 #install docker
 RUN apt-get update
 RUN apt-get -y install apt-transport-https ca-certificates curl gnupg lsb-release
